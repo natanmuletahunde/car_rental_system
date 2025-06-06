@@ -14,7 +14,12 @@ function App() {
   }, []);
 
   return (
+    
     <Router>
+      <div>
+      <h1>Car Rental System</h1>
+      <p>If you see this, React is rendering correctly!</p>
+    </div>
       <div className="min-h-screen">
         <Navbar />
         <Routes>
