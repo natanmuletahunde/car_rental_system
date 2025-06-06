@@ -7,25 +7,35 @@ import Register from './pages/Register';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) setUser({ loggedIn: true });
+    if (token) {
+      // Optionally validate token with the backend
+      setUser({ loggedIn: true });
+    }
+    setLoading(false); // Mark loading as complete
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    window.location.href = '/login'; // Redirect to login on logout
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Prevent rendering until auth check is done
+  }
+
   return (
-    
     <Router>
-      <div>
-      <h1>Car Rental System</h1>
-      <p>If you see this, React is rendering correctly!</p>
-    </div>
       <div className="min-h-screen">
-        <Navbar />
+        <Navbar onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={user ? <Dashboard setUser={setUser} /> : <Navigate to="/login" />} />
+          <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/dashboard" />} />
           <Route path="/register" element={!user ? <Register /> : <Navigate to="/dashboard" />} />
         </Routes>
       </div>

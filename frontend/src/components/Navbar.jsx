@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ onLogout }) => {
   return (
     <nav className="bg-coffee text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -9,6 +9,7 @@ const Navbar = () => {
           <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
           <Link to="/login" className="hover:text-gray-300">Login</Link>
           <Link to="/register" className="hover:text-gray-300">Register</Link>
+          <button onClick={onLogout} className="hover:text-gray-300">Logout</button>
         </div>
       </div>
     </nav>
